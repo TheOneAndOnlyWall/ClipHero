@@ -15,7 +15,7 @@ public class ServerFinder extends Thread{
     private String searchMessage = "FindClipHeroServer";
 
     public ServerFinder() throws UnknownHostException, SocketException {
-        localhost = InetAddress.getLocalHost();
+        localhost = InetAddress.getByName("255.255.255.255");
         socket = new DatagramSocket();
         socket.setBroadcast(true);
         buf = searchMessage.getBytes();
