@@ -10,14 +10,13 @@ public class ServerFinder extends Thread{
 
     private byte[] buf;
 
-    private InetAddress localhost;
+    private InetAddress group;
 
     private String searchMessage = "FindClipHeroServer";
 
     public ServerFinder() throws UnknownHostException, SocketException {
-        localhost = InetAddress.getByName("255.255.255.255");
         socket = new DatagramSocket();
-        socket.setBroadcast(true);
+        group = InetAddress.getByName("230.0.0.0");
         buf = searchMessage.getBytes();
     }
 
@@ -26,13 +25,11 @@ public class ServerFinder extends Thread{
 
         while(running){
             try {
-                DatagramPacket packet = new DatagramPacket(buf, buf.length, localhost, 50111);
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 50111);
                 socket.send(packet);
 
                 Thread.sleep(1000);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

@@ -1,19 +1,18 @@
 package server;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 public class ServiceReply extends Thread{
 
-    DatagramSocket socket;
+    MulticastSocket socket;
     private boolean running;
     private byte[] buf = new byte[256];
 
-    public ServiceReply() throws SocketException {
-        socket = new DatagramSocket(50111);
+    public ServiceReply() throws IOException {
+        socket = new MulticastSocket(50111);
+        InetAddress group = InetAddress.getByName("230.0.0.0");
+        socket.joinGroup(group);
     }
 
     public void run(){

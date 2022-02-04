@@ -2,7 +2,9 @@ package infrastructure;
 
 import server.ServiceReply;
 
+import java.io.IOException;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class MainClipServer {
 
@@ -10,7 +12,7 @@ public class MainClipServer {
         try {
             ServiceReply reply = new ServiceReply();
             reply.start();
-        } catch (SocketException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
