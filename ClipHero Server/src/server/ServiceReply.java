@@ -13,10 +13,11 @@ public class ServiceReply extends Thread{
         socket = new MulticastSocket(50111);
         InetAddress group = InetAddress.getByName("230.0.0.0");
         socket.joinGroup(group);
+        running = true;
+
     }
 
     public void run(){
-        running = true;
 
         while(running){
             try {

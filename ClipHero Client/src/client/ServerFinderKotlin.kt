@@ -13,9 +13,9 @@ class ServerFinderKotlin(val address: String = "230.0.0.0", val port: Int = 5011
     var buf = searchMessage.toByteArray()
 
 
-    override fun run(){
+    override fun run() {
 
-        while(running){
+        while (running) {
             val packet = DatagramPacket(buf, buf.size, group, port)
             socket.send(packet)
 
@@ -24,6 +24,8 @@ class ServerFinderKotlin(val address: String = "230.0.0.0", val port: Int = 5011
 
     }
 
-    fun stopListening(){running = false}
+    fun stopListening() {
+        running = false
+    }
 
 }
