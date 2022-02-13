@@ -6,6 +6,6 @@ fun main(){
 
     val client = Client()
     client.start()
-    client.broadcastMessage("Test")
+    client.broadcastClipboard()
 
 }
