@@ -51,7 +51,30 @@ public class MainGui extends JFrame implements ActionListener {
 
         if(e.getSource() == connectButton){
             if(!textFieldMulticastIp.getText().isBlank()){
-                cl.show(cardPanel, "Application");
+                try{
+
+                    //Test if entered IP is a valid Multicast IP
+                    String[] numbersOfIp = textFieldMulticastIp.getText().split("\\.");
+                    if(numbersOfIp.length != 4){
+                        throw new NumberFormatException();
+                    }
+                    for(int i = 0; i < numbersOfIp.length; i++){
+                        int partOfIp = Integer.parseInt(numbersOfIp[i]);
+                        System.out.println(partOfIp);
+                        if(i == 0){
+                            if(partOfIp < 224 || partOfIp > 239){
+                                throw new NumberFormatException();
+                            }
+                        }else{
+                            if(partOfIp < 0 || partOfIp > 255){
+                                throw new NumberFormatException();
+                            }
+                        }
+                    }
+                    cl.show(cardPanel, "Application");
+                }catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(this, bundle.getString("NotMulticastIP"));
+                }
             }else{
                 JOptionPane.showMessageDialog(this, bundle.getString("NoIPWarning"));
             }
