@@ -1,6 +1,10 @@
 package infrastructure
 
 import client.Client
+import com.formdev.flatlaf.FlatDarculaLaf
+import com.formdev.flatlaf.FlatDarkLaf
+import com.formdev.flatlaf.FlatIntelliJLaf
+import com.formdev.flatlaf.FlatLightLaf
 import gui.MainGui
 
 fun main(){
@@ -9,5 +13,8 @@ fun main(){
 //    client.start()
 //    client.broadcastClipboard()
 
-    val testGui = MainGui();
+//    FlatIntelliJLaf.setup()
+    FlatDarkLaf.setup()
+
+    val testGui = MainGui()
 }
