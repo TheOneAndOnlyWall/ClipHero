@@ -32,10 +32,13 @@ public class MainGui extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         //Set Location
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        this.setLocation(width - this.getWidth(), height - this.getHeight() - 25);
+        GraphicsConfiguration config = this.getGraphicsConfiguration();
+        Rectangle bounds = config.getBounds();
+        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
+
+        int x = bounds.x + bounds.width - insets.right - this.getWidth();
+        int y = bounds.y + bounds.height - this.getHeight() - 25;
+        this.setLocation(x, y);
 
         cl = (CardLayout)(cardPanel.getLayout());
 
