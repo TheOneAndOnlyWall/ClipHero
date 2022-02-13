@@ -2,6 +2,6 @@ package gui
 
 interface GuiClipboardHandler {
 
-    fun processClipboardMessage(message: String)
+    fun processIncomingClipboardMessage(message: String)
 
 }

@@ -1,12 +1,15 @@
 package gui;
 
+import client.Client;
+import protocol.PROTOCOL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
-public class MainGui extends JFrame implements ActionListener {
+public class MainGui extends JFrame implements ActionListener, GuiClipboardHandler {
     private JPanel mainPanel;
     private JPanel cardPanel;
     private JPanel loginPanel;
@@ -20,7 +23,11 @@ public class MainGui extends JFrame implements ActionListener {
     private JCheckBox checkBoxAutoCopy;
     private JCheckBox checkBoxAutoPaste;
     private JButton buttonSettings;
+    private JTextField textFieldSendMessage;
+    private JButton sendButton;
+    private JButton clipboardButton;
     private CardLayout cl;
+    private Client clipClient;
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("gui.GuiStrings");
 
@@ -43,7 +50,12 @@ public class MainGui extends JFrame implements ActionListener {
         cl = (CardLayout)(cardPanel.getLayout());
 
         connectButton.addActionListener(this);
+        sendButton.addActionListener(this);
+        clipboardButton.addActionListener(this);
+
         buttonDisconnect.addActionListener(this);
+        checkBoxAutoCopy.addActionListener(this);
+        checkBoxAutoPaste.addActionListener(this);
     }
 
     @Override
@@ -60,7 +72,6 @@ public class MainGui extends JFrame implements ActionListener {
                     }
                     for(int i = 0; i < numbersOfIp.length; i++){
                         int partOfIp = Integer.parseInt(numbersOfIp[i]);
-                        System.out.println(partOfIp);
                         if(i == 0){
                             if(partOfIp < 224 || partOfIp > 239){
                                 throw new NumberFormatException();
@@ -71,6 +82,8 @@ public class MainGui extends JFrame implements ActionListener {
                             }
                         }
                     }
+                    clipClient = new Client(textFieldMulticastIp.getText(), 50111, this);
+                    clipClient.start();
                     cl.show(cardPanel, "Application");
                 }catch (NumberFormatException ex){
                     JOptionPane.showMessageDialog(this, bundle.getString("NotMulticastIP"));
@@ -80,9 +93,36 @@ public class MainGui extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource() == buttonDisconnect){
-            cl.show(cardPanel, "Login");
+        if(e.getSource() == sendButton){
+            if(clipClient != null && !textFieldSendMessage.getText().isBlank()){
+                clipClient.broadcastMessage(PROTOCOL.Companion.getClipboardMessage(), textFieldSendMessage.getText());
+            }
         }
 
+        if(e.getSource() == clipboardButton){
+            if(clipClient != null){
+                clipClient.broadcastClipboard();
+            }
+        }
+
+        if(e.getSource() == buttonDisconnect){
+            cl.show(cardPanel, "Login");
+            clipClient.stopClient();
+            clipClient = null;
+        }
+
+        if(e.getSource() == checkBoxAutoCopy){
+            clipClient.setAutoCopy(checkBoxAutoCopy.isSelected());
+        }
+
+        if(e.getSource() == checkBoxAutoPaste){
+            clipClient.setAutoPaste(checkBoxAutoPaste.isSelected());
+        }
+
+    }
+
+    @Override
+    public void processIncomingClipboardMessage(String message) {
+        System.out.println(message);
     }
 }

@@ -1,5 +1,6 @@
 package client
 
+import gui.GuiClipboardHandler
 import protocol.PROTOCOL
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
@@ -9,7 +10,7 @@ import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
 
-class Client (val address: String = "230.0.0.0", val port: Int = 50111): Thread() {
+class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clipboardHandler: GuiClipboardHandler): Thread() {
 
     private val socket = MulticastSocket(port)
     private val clipboard = Toolkit.getDefaultToolkit().systemClipboard
@@ -17,6 +18,9 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111): Thread(
     private var running = true
     private var buf = ByteArray(256)
     private var group = InetAddress.getByName(address)
+
+    var autoPaste = false
+    var autoCopy = false
 
     init {
         socket.joinGroup(group)
@@ -44,7 +48,11 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111): Thread(
 
         when(messageType){
             PROTOCOL.clipboardMessage -> {
-                clipboard.setContents(StringSelection(message), null)
+                if(autoCopy){
+                    clipboard.setContents(StringSelection(message), null)
+                    println("Copy to Clipboard")
+                }
+                clipboardHandler.processIncomingClipboardMessage(message)
             }
         }
     }
