@@ -28,6 +28,13 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
     private JTextField textFieldSendMessage;
     private JButton sendButton;
     private JButton clipboardButton;
+    private JPanel settlingsPanel;
+    private JComboBox comboBoxTheme;
+    private JCheckBox checkBoxStartup;
+    private JCheckBox checkBoxStartMinimized;
+    private JButton okayButton;
+    private JButton cancelButton;
+    private JButton applyButton;
     private CardLayout cl;
     private Client clipClient;
 
@@ -54,8 +61,9 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
         connectButton.addActionListener(this);
         sendButton.addActionListener(this);
         clipboardButton.addActionListener(this);
-
         buttonDisconnect.addActionListener(this);
+        buttonSettings.addActionListener(this);
+
         checkBoxAutoCopy.addActionListener(this);
         checkBoxAutoPaste.addActionListener(this);
 
@@ -84,6 +92,10 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
             cl.show(cardPanel, "Login");
             clipClient.stopClient();
             clipClient = null;
+        }
+
+        if(e.getSource() == buttonSettings){
+            cl.show(cardPanel, "Settings");
         }
 
         if(e.getSource() == checkBoxAutoCopy){
