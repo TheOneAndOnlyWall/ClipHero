@@ -28,7 +28,7 @@
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="InsertMultiIp"/>
+                  <text resource-bundle="GuiStrings" key="InsertMultiIp"/>
                 </properties>
               </component>
               <component id="ed484" class="javax.swing.JTextField" binding="textFieldMulticastIp">
@@ -44,7 +44,7 @@
                   <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="autoReconnect"/>
+                  <text resource-bundle="GuiStrings" key="autoReconnect"/>
                 </properties>
               </component>
               <component id="63dd9" class="javax.swing.JButton" binding="connectButton" default-binding="true">
@@ -52,7 +52,7 @@
                   <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="Connect"/>
+                  <text resource-bundle="GuiStrings" key="Connect"/>
                 </properties>
               </component>
               <component id="3cb7e" class="javax.swing.JLabel">
@@ -61,7 +61,7 @@
                 </constraints>
                 <properties>
                   <font size="20"/>
-                  <text resource-bundle="gui/GuiStrings" key="Greeting"/>
+                  <text resource-bundle="GuiStrings" key="Greeting"/>
                 </properties>
               </component>
               <vspacer id="bc1a3">
@@ -84,7 +84,7 @@
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="MulticastIPs"/>
+                  <text resource-bundle="GuiStrings" key="MulticastIPs"/>
                 </properties>
               </component>
             </children>
@@ -115,7 +115,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="clipboardHistory"/>
+                  <text resource-bundle="GuiStrings" key="clipboardHistory"/>
                 </properties>
               </component>
               <component id="bd1a9" class="javax.swing.JCheckBox" binding="checkBoxAutoCopy">
@@ -123,7 +123,7 @@
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="AutoCopy"/>
+                  <text resource-bundle="GuiStrings" key="AutoCopy"/>
                 </properties>
               </component>
               <component id="97b04" class="javax.swing.JCheckBox" binding="checkBoxAutoPaste">
@@ -131,7 +131,7 @@
                   <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="AutoPaste"/>
+                  <text resource-bundle="GuiStrings" key="AutoPaste"/>
                 </properties>
               </component>
               <component id="557de" class="javax.swing.JButton" binding="buttonDisconnect">
@@ -139,7 +139,7 @@
                   <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="disconnect"/>
+                  <text resource-bundle="GuiStrings" key="disconnect"/>
                 </properties>
               </component>
               <component id="b9de" class="javax.swing.JButton" binding="buttonSettings">
@@ -147,7 +147,7 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="Settings"/>
+                  <text resource-bundle="GuiStrings" key="Settings"/>
                 </properties>
               </component>
               <component id="47e43" class="javax.swing.JTextField" binding="textFieldSendMessage">
@@ -163,7 +163,7 @@
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="Send"/>
+                  <text resource-bundle="GuiStrings" key="Send"/>
                 </properties>
               </component>
               <component id="1d6cd" class="javax.swing.JLabel">
@@ -171,7 +171,7 @@
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="SendCustomMessage"/>
+                  <text resource-bundle="GuiStrings" key="SendCustomMessage"/>
                 </properties>
               </component>
               <component id="73257" class="javax.swing.JButton" binding="clipboardButton" default-binding="true">
@@ -179,7 +179,7 @@
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text resource-bundle="gui/GuiStrings" key="PasteClipboard"/>
+                  <text resource-bundle="GuiStrings" key="PasteClipboard"/>
                 </properties>
               </component>
             </children>

@@ -3,9 +3,7 @@ package client
 import gui.GuiClipboardHandler
 import protocol.PROTOCOL
 import java.awt.Toolkit
-import java.awt.datatransfer.Clipboard
-import java.awt.datatransfer.DataFlavor
-import java.awt.datatransfer.StringSelection
+import java.awt.datatransfer.*
 import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
@@ -50,7 +48,6 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
             PROTOCOL.clipboardMessage -> {
                 if(autoCopy){
                     clipboard.setContents(StringSelection(message), null)
-                    println("Copy to Clipboard")
                 }
                 clipboardHandler.processIncomingClipboardMessage(message)
             }
@@ -68,5 +65,6 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
     }
 
     fun stopClient(){running = false}
+
 
 }

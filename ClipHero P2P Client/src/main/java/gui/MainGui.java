@@ -29,7 +29,7 @@ public class MainGui extends JFrame implements ActionListener, GuiClipboardHandl
     private CardLayout cl;
     private Client clipClient;
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("gui.GuiStrings");
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("GuiStrings");
 
     public MainGui(){
         super("ClipHero");
