@@ -1,6 +1,8 @@
 package gui;
 
 import client.Client;
+import client.ClipBoardHandler;
+import client.ClipboardChangeListener;
 import protocol.PROTOCOL;
 
 import javax.swing.*;
@@ -39,6 +41,8 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
     private Client clipClient;
     private DefaultListModel listModel;
 
+    private ClipBoardHandler clipChangeListener;
+
     private static final ResourceBundle bundle = ResourceBundle.getBundle("GuiStrings");
 
     public MainGui(){
@@ -70,6 +74,9 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
 
         textFieldSendMessage.addKeyListener(this);
         textFieldMulticastIp.addKeyListener(this);
+
+        clipChangeListener = new ClipBoardHandler();
+        clipChangeListener.start();
     }
 
     @Override
@@ -159,7 +166,7 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
                         }
                     }
                 }
-                clipClient = new Client(textFieldMulticastIp.getText(), 50111, this);
+                clipClient = new Client(textFieldMulticastIp.getText(), 50111, this, clipChangeListener);
                 clipClient.start();
                 cl.show(cardPanel, "Application");
             }catch (NumberFormatException ex){

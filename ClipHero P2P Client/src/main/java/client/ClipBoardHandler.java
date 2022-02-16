@@ -7,10 +7,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClipBoardHandler extends Thread implements ClipboardOwner {
-    Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
+    private Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
 
-    ClipboardChangeListener listener;
-    public ClipBoardHandler(ClipboardChangeListener listener){
+    private ClipboardChangeListener listener;
+
+
+    public void setClipChangeListener(ClipboardChangeListener listener){
         this.listener = listener;
     }
 
@@ -38,18 +40,20 @@ public class ClipBoardHandler extends Thread implements ClipboardOwner {
 
     }
 
-    void TakeOwnership(Transferable t) {
+    private void TakeOwnership(Transferable t) {
         sysClip.setContents(t, this);
     }
 
-    public void process_clipboard(Transferable t, Clipboard c) {
+    private void process_clipboard(Transferable t, Clipboard c) {
         String tempText;
         Transferable trans = t;
 
         try {
             if (trans != null?trans.isDataFlavorSupported(DataFlavor.stringFlavor):false) {
                 tempText = (String) trans.getTransferData(DataFlavor.stringFlavor);
-                listener.clipboardChanged(tempText);
+                if(listener != null){
+                    listener.clipboardChanged(tempText);
+                }
             }
 
         } catch (Exception e) {

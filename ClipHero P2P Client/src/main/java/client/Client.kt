@@ -6,10 +6,9 @@ import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
 
-class Client (val address: String = "230.0.0.0", val port: Int = 50111, private val guiClipboardHandler: GuiClipboardHandler): Thread(), ClipboardChangeListener {
+class Client (val address: String = "230.0.0.0", val port: Int = 50111, private val guiClipboardHandler: GuiClipboardHandler, private val clipBoardHandler: ClipBoardHandler): Thread(), ClipboardChangeListener {
 
     private val socket = MulticastSocket(port)
-    private val clipBoardHandler = ClipBoardHandler(this)
 
     private var running = false
     private var buf = ByteArray(256)
@@ -20,7 +19,7 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, private 
 
     init {
         socket.joinGroup(group)
-        clipBoardHandler.start()
+        clipBoardHandler.setClipChangeListener(this)
     }
 
     override fun run() {
@@ -73,7 +72,8 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, private 
         }
     }
 
-    fun stopClient(){running = false}
-
+    fun stopClient(){
+        running = false
+    }
 
 }
