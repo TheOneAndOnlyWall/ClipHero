@@ -7,13 +7,11 @@ import protocol.PROTOCOL;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ResourceBundle;
 
 public class MainGui extends JFrame implements ActionListener, KeyListener, GuiClipboardHandler {
+
     private JPanel mainPanel;
     private JPanel cardPanel;
     private JPanel loginPanel;
@@ -77,6 +75,9 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
 
         clipChangeListener = new ClipBoardHandler();
         clipChangeListener.start();
+
+        ListDoubleClickCopy ldcc = new ListDoubleClickCopy(listClipHistory, clipChangeListener);
+        listClipHistory.addMouseListener(ldcc);
     }
 
     @Override

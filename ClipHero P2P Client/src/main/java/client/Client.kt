@@ -6,7 +6,12 @@ import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
 
-class Client (val address: String = "230.0.0.0", val port: Int = 50111, private val guiClipboardHandler: GuiClipboardHandler, private val clipBoardHandler: ClipBoardHandler): Thread(), ClipboardChangeListener {
+class Client(
+    val address: String = "230.0.0.0",
+    val port: Int = 50111,
+    private val guiClipboardHandler: GuiClipboardHandler,
+    private val clipBoardHandler: ClipBoardHandler
+) : Thread(), ClipboardChangeListener {
 
     private val socket = MulticastSocket(port)
 
@@ -26,12 +31,11 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, private 
 
         running = true
 
-        while(running){
+        while (running) {
 
             val packet = DatagramPacket(buf, buf.size)
             socket.receive(packet)
             processMessage(packet.address, packet.port, String(packet.data, 0, packet.length))
-
 
         }
 
@@ -39,15 +43,15 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, private 
 
     }
 
-    private fun processMessage(receivedAddress: InetAddress, receivedPort: Int, receivedString: String){
+    private fun processMessage(receivedAddress: InetAddress, receivedPort: Int, receivedString: String) {
         val messageType = receivedString.substring(0 until receivedString.indexOf(PROTOCOL.seperator))
         val message = receivedString.substring(receivedString.indexOf(PROTOCOL.seperator) + 1)
 
-        println("Message Type: $messageType \nMessage: $message")
+        println("Message Type: $messageType \nMessage: $message\n")
 
-        when(messageType){
+        when (messageType) {
             PROTOCOL.clipboardMessage -> {
-                if(autoCopy){
+                if (autoCopy) {
                     clipBoardHandler.setClipboard(message)
                 }
                 guiClipboardHandler.processIncomingClipboardMessage(message)
@@ -55,24 +59,24 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, private 
         }
     }
 
-    fun broadcastMessage(messageType: String, message: String){
+    fun broadcastMessage(messageType: String, message: String) {
         val fullMessage = messageType + PROTOCOL.seperator + message
         val packet = DatagramPacket(fullMessage.toByteArray(), fullMessage.length, group, port)
         socket.send(packet)
     }
 
-    fun broadcastClipboard(){
+    fun broadcastClipboard() {
         broadcastMessage(PROTOCOL.clipboardMessage, clipBoardHandler.clipboardMessage)
     }
 
     override fun clipboardChanged(newContent: String) {
         println("Clipboard changed to: $newContent")
-        if(autoCopy){
+        if (autoCopy) {
             broadcastClipboard()
         }
     }
 
-    fun stopClient(){
+    fun stopClient() {
         running = false
     }
 
