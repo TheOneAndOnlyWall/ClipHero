@@ -1,6 +1,7 @@
 package client
 
 import gui.GuiClipboardHandler
+import client.*
 import protocol.PROTOCOL
 import java.awt.Toolkit
 import java.awt.datatransfer.*
@@ -8,12 +9,13 @@ import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
 
-class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clipboardHandler: GuiClipboardHandler): Thread() {
+class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clipboardHandler: GuiClipboardHandler): Thread(), ClipboardChangeListener {
 
     private val socket = MulticastSocket(port)
     private val clipboard = Toolkit.getDefaultToolkit().systemClipboard
+    private val ClipBoardListener = ClipBoardListener(this)
 
-    private var running = true
+    private var running = false
     private var buf = ByteArray(256)
     private var group = InetAddress.getByName(address)
 
@@ -22,15 +24,19 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
 
     init {
         socket.joinGroup(group)
+        ClipBoardListener.start()
     }
 
     override fun run() {
+
+        running = true
 
         while(running){
 
             val packet = DatagramPacket(buf, buf.size)
             socket.receive(packet)
             processMessage(packet.address, packet.port, String(packet.data, 0, packet.length))
+
 
         }
 
@@ -65,6 +71,10 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
     }
 
     fun stopClient(){running = false}
+
+    override fun clipboardChanged(newContent: String) {
+        println(newContent)
+    }
 
 
 }
