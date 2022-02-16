@@ -1,19 +1,16 @@
 package client
 
 import gui.GuiClipboardHandler
-import client.*
 import protocol.PROTOCOL
-import java.awt.Toolkit
 import java.awt.datatransfer.*
 import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
 
-class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clipboardHandler: GuiClipboardHandler): Thread(), ClipboardChangeListener {
+class Client (val address: String = "230.0.0.0", val port: Int = 50111, private val guiClipboardHandler: GuiClipboardHandler): Thread(), ClipboardChangeListener {
 
     private val socket = MulticastSocket(port)
-    private val clipboard = Toolkit.getDefaultToolkit().systemClipboard
-    private val ClipBoardListener = ClipBoardListener(this)
+    private val clipBoardHandler = ClipBoardHandler(this)
 
     private var running = false
     private var buf = ByteArray(256)
@@ -24,7 +21,7 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
 
     init {
         socket.joinGroup(group)
-        ClipBoardListener.start()
+        clipBoardHandler.start()
     }
 
     override fun run() {
@@ -53,9 +50,9 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
         when(messageType){
             PROTOCOL.clipboardMessage -> {
                 if(autoCopy){
-                    clipboard.setContents(StringSelection(message), null)
+                    clipBoardHandler.setClipboard(message)
                 }
-                clipboardHandler.processIncomingClipboardMessage(message)
+                guiClipboardHandler.processIncomingClipboardMessage(message)
             }
         }
     }
@@ -67,13 +64,13 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, val clip
     }
 
     fun broadcastClipboard(){
-        broadcastMessage(PROTOCOL.clipboardMessage, clipboard.getData(DataFlavor.stringFlavor) as String)
+        broadcastMessage(PROTOCOL.clipboardMessage, clipBoardHandler.clipboard)
     }
 
     fun stopClient(){running = false}
 
     override fun clipboardChanged(newContent: String) {
-        println(newContent)
+        println("Clipboard changed to: $newContent")
     }
 
 

@@ -1,18 +1,16 @@
 package client;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.*;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClipBoardListener extends Thread implements ClipboardOwner {
+public class ClipBoardHandler extends Thread implements ClipboardOwner {
     Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
 
     ClipboardChangeListener listener;
-    public ClipBoardListener(ClipboardChangeListener listener){
+    public ClipBoardHandler(ClipboardChangeListener listener){
         this.listener = listener;
     }
 
@@ -26,7 +24,7 @@ public class ClipBoardListener extends Thread implements ClipboardOwner {
     public void lostOwnership(Clipboard c, Transferable t) {
 
         try {
-            ClipBoardListener.sleep(250);  //waiting e.g for loading huge elements like word's etc.
+            ClipBoardHandler.sleep(250);  //waiting e.g for loading huge elements like word's etc.
         } catch(Exception e) {
             System.out.println("Exception: " + e);
         }
@@ -34,7 +32,7 @@ public class ClipBoardListener extends Thread implements ClipboardOwner {
         try {
             process_clipboard(contents, c);
         } catch (Exception ex) {
-            Logger.getLogger(ClipBoardListener.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClipBoardHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         TakeOwnership(contents);
 
@@ -57,5 +55,11 @@ public class ClipBoardListener extends Thread implements ClipboardOwner {
         } catch (Exception e) {
         }
     }
+
+    public void setClipboard(String newContent){
+        sysClip.setContents(new StringSelection(newContent), this);
+    }
+
+    public String getClipboard() throws IOException, UnsupportedFlavorException {return (String)sysClip.getData(DataFlavor.stringFlavor);}
 
 }
