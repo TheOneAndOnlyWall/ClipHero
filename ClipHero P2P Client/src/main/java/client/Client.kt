@@ -2,7 +2,6 @@ package client
 
 import gui.GuiClipboardHandler
 import protocol.PROTOCOL
-import java.awt.datatransfer.*
 import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
@@ -64,14 +63,17 @@ class Client (val address: String = "230.0.0.0", val port: Int = 50111, private 
     }
 
     fun broadcastClipboard(){
-        broadcastMessage(PROTOCOL.clipboardMessage, clipBoardHandler.clipboard)
+        broadcastMessage(PROTOCOL.clipboardMessage, clipBoardHandler.clipboardMessage)
     }
-
-    fun stopClient(){running = false}
 
     override fun clipboardChanged(newContent: String) {
         println("Clipboard changed to: $newContent")
+        if(autoCopy){
+            broadcastClipboard()
+        }
     }
+
+    fun stopClient(){running = false}
 
 
 }

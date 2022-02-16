@@ -60,6 +60,6 @@ public class ClipBoardHandler extends Thread implements ClipboardOwner {
         sysClip.setContents(new StringSelection(newContent), this);
     }
 
-    public String getClipboard() throws IOException, UnsupportedFlavorException {return (String)sysClip.getData(DataFlavor.stringFlavor);}
+    public String getClipboardMessage() throws IOException, UnsupportedFlavorException {return (String)sysClip.getData(DataFlavor.stringFlavor);}
 
 }
