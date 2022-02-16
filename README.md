@@ -1,8 +1,8 @@
 # ClipHero
 Program to share Clipboards
 
-## Entstehung
-Aktuell lerne ich Kotlin. Deshalb entwickle ich gerade ein kleines Programm, mit dem man ohne viel Aufwand seine Zwischenablage mit anderen teilen und synchronisieren kann. Es wird auch eine Historie der letzten geteilten Zwischenablagen geführt. Das geht aktuell nur auf Rechnern mit Java, eine Android App soll aber noch folgen.
+## Vorwort
+Aktuell entwickle ich ein kleines Programm, mit dem man ohne viel Aufwand seine Zwischenablage mit anderen teilen und synchronisieren kann. Es wird auch eine Historie der letzten geteilten Zwischenablagen geführt. Das geht aktuell nur auf Rechnern mit Java, eine Android App soll aber noch folgen.
 Das Programm ist natürlich noch in der Entwicklung, also funktioniert ein Großteil der Funktionen noch nicht.
 
 ## Funktionsweise
