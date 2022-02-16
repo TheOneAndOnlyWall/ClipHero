@@ -2,7 +2,6 @@ package gui;
 
 import client.Client;
 import client.ClipBoardHandler;
-import client.ClipboardChangeListener;
 import protocol.PROTOCOL;
 
 import javax.swing.*;
@@ -12,6 +11,7 @@ import java.util.ResourceBundle;
 
 public class MainGui extends JFrame implements ActionListener, KeyListener, GuiClipboardHandler {
 
+    //Gui
     private JPanel mainPanel;
     private JPanel cardPanel;
     private JPanel loginPanel;
@@ -39,7 +39,18 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
     private Client clipClient;
     private DefaultListModel listModel;
 
+    //Clipboard
     private ClipBoardHandler clipChangeListener;
+
+    //System Tray
+    private PopupMenu popup;
+    private TrayIcon trayIcon;
+    private SystemTray tray;
+    private MenuItem settingsTray;
+    private MenuItem exitTray;
+    private CheckboxMenuItem autoPasteTray;
+    private CheckboxMenuItem autoCopyTray;
+
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("GuiStrings");
 
@@ -48,7 +59,7 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
         this.setSize(450, 500);
         this.getContentPane().add(mainPanel);
         this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         //Set Location
         GraphicsConfiguration config = this.getGraphicsConfiguration();
@@ -78,6 +89,13 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
 
         ListDoubleClickCopy ldcc = new ListDoubleClickCopy(listClipHistory, clipChangeListener);
         listClipHistory.addMouseListener(ldcc);
+
+        //System Tray
+        createSystemTray();
+
+        addClosingListener();
+
+
     }
 
     @Override
@@ -113,6 +131,21 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
 
         if(e.getSource() == checkBoxAutoPaste){
             clipClient.setAutoPaste(checkBoxAutoPaste.isSelected());
+        }
+
+        //System Tray
+        if(e.getSource() == trayIcon){
+            this.setVisible(true);
+        }
+
+        if(e.getSource() == exitTray){
+            tray.remove(trayIcon);
+            System.exit(0);
+        }
+
+        if(e.getSource() == settingsTray){
+            this.setVisible(true);
+            cl.show(cardPanel, "Settings");
         }
 
     }
@@ -183,6 +216,51 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
             clipClient.broadcastMessage(PROTOCOL.Companion.getClipboardMessage(), textFieldSendMessage.getText());
             textFieldSendMessage.setText("");
         }
+    }
+
+    private void createSystemTray(){
+        if(SystemTray.isSupported()){
+            popup = new PopupMenu();
+            trayIcon = new TrayIcon(createImage(50, 50));
+            tray = SystemTray.getSystemTray();
+
+            // Create a pop-up menu components
+            settingsTray = new MenuItem(bundle.getString("Settings"));
+            exitTray = new MenuItem(bundle.getString("Exit"));
+            autoPasteTray = new CheckboxMenuItem(bundle.getString("AutoPaste"));
+            autoCopyTray = new CheckboxMenuItem(bundle.getString("AutoCopy"));
+
+            //Add components to pop-up menu
+            popup.add(settingsTray);
+            popup.addSeparator();
+            popup.add(autoPasteTray);
+            popup.add(autoCopyTray);
+            popup.addSeparator();
+            popup.add(exitTray);
+
+            trayIcon.setPopupMenu(popup);
+
+            trayIcon.addActionListener(this);
+            autoPasteTray.addActionListener(this);
+            autoCopyTray.addActionListener(this);
+            settingsTray.addActionListener(this);
+            exitTray.addActionListener(this);
+
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                System.out.println("TrayIcon could not be added.");
+            }
+        }
+    }
+
+    private void addClosingListener(){
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                setVisible(false);
+            }
+        });
     }
 
     private void createUIComponents() {

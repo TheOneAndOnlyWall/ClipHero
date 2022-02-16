@@ -6,8 +6,8 @@ import gui.MainGui
 
 fun main(){
 
-    FlatIntelliJLaf.setup()
-//    FlatOneDarkIJTheme.setup()
+//    FlatIntelliJLaf.setup()
+    FlatOneDarkIJTheme.setup()
 
     val testGui = MainGui()
 }
