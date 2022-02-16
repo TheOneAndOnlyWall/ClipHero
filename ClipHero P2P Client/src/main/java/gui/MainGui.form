@@ -104,7 +104,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="59f3b" class="javax.swing.JTable" binding="tableClipHistory">
+                  <component id="c2867" class="javax.swing.JList" binding="listClipHistory" custom-create="true">
                     <constraints/>
                     <properties/>
                   </component>

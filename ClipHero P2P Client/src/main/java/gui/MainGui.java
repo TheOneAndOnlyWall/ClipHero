@@ -20,7 +20,6 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
     private JCheckBox automaticReconnectCheckBox;
     private JPanel applicationPanel;
     private JScrollPane scrollPaneClipHistory;
-    private JTable tableClipHistory;
     private JButton buttonDisconnect;
     private JCheckBox checkBoxAutoCopy;
     private JCheckBox checkBoxAutoPaste;
@@ -35,8 +34,10 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
     private JButton okayButton;
     private JButton cancelButton;
     private JButton applyButton;
+    private JList listClipHistory;
     private CardLayout cl;
     private Client clipClient;
+    private DefaultListModel listModel;
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("GuiStrings");
 
@@ -110,7 +111,9 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
 
     @Override
     public void processIncomingClipboardMessage(String message) {
-        System.out.println(message);
+        listModel.addElement(message);
+        listClipHistory.ensureIndexIsVisible(listModel.indexOf(listModel.lastElement()));
+        listClipHistory.repaint();
     }
 
     @Override
@@ -172,5 +175,11 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
             clipClient.broadcastMessage(PROTOCOL.Companion.getClipboardMessage(), textFieldSendMessage.getText());
             textFieldSendMessage.setText("");
         }
+    }
+
+    private void createUIComponents() {
+        listModel = new DefaultListModel();
+        listClipHistory = new JList(listModel);
+
     }
 }
