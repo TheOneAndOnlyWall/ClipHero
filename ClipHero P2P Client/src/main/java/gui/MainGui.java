@@ -55,7 +55,7 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
     private static final ResourceBundle bundle = ResourceBundle.getBundle("GuiStrings");
 
     public MainGui(){
-        super("ClipHero");
+        super(bundle.getString("ProjectTitle"));
         this.setSize(450, 500);
         this.getContentPane().add(mainPanel);
         this.setVisible(true);
@@ -94,7 +94,6 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
         createSystemTray();
 
         addClosingListener();
-
 
     }
 
@@ -239,6 +238,7 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
             popup.add(exitTray);
 
             trayIcon.setPopupMenu(popup);
+            trayIcon.setToolTip(bundle.getString("ClipHeroRunning"));
 
             trayIcon.addActionListener(this);
             autoPasteTray.addActionListener(this);
@@ -259,6 +259,7 @@ public class MainGui extends JFrame implements ActionListener, KeyListener, GuiC
             @Override
             public void windowClosing(WindowEvent e) {
                 setVisible(false);
+                trayIcon.displayMessage(bundle.getString("ProjectTitle"), bundle.getString("RunningInBackground"), TrayIcon.MessageType.INFO);
             }
         });
     }
